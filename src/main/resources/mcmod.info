@@ -1,0 +1,11 @@
+[
+{
+  "modid": "stopdrop",
+  "name": "Stop Drop",
+  "description": "Fixes the problem of accidently dropping things, by removing the ability to drop things!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "authorList": ["MoSadie"],
+  "credits": "Inspired by Hypixel Skyblock, because I don't want any chance of dropping my sword."
+}
+]
