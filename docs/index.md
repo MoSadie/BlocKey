@@ -10,6 +10,7 @@ foo bar this is a test of words and things. This page is a work in progress test
 
 | Version | Title | Changelog | Download |
 | --- | --- | --- | --- |
+
 {% for release in site.github.releases %}
 | {% if release.prerelease %} Pre-release: {% endif %} {{release.tag_name}} | {{release.name}} | [Changelog]({{release.html_url}}) | {% for asset in release.assets %} [{{asset.name}}]({{asset.browser_download_url}}) <br> {% endfor %}|
 {% endfor %}
