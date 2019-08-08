@@ -9,15 +9,17 @@ foo bar this is a test of words and things. This page is a work in progress test
 # Versions:
 
 {% for release in site.github.releases %}
-## {% if release.prerelease %} Pre-release: {% endif %}{{release.name}} ##
-
-### Changelog
-{{release.body}}
-
-### Downloads:
+> # {% if release.prerelease %} Pre-release: {% endif %}{{release.name}} ##
+> 
+> ## Changelog
+> {{release.body}}
+> 
+> ## Downloads:
 {% for asset in release.assets %}
- * [{{asset.name}}]({{asset.browser_download_url}})
+> * [{{asset.name}}]({{asset.browser_download_url}})
+
 {% endfor %}
+
 
 {% endfor %}
 {% endif %}
