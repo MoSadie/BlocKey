@@ -1,0 +1,9 @@
+# Key Binding Names
+stopdrop.key.drop=Drop Item
+
+# Key Category Name
+stopdrop.key.category=StopDrop
+
+# Command Text
+command.stopdrop.status.disabled=[StopDrop] Drop key blocking is disabled.
+command.stopdrop.status.enabled=[StopDrop] Drop key blocking is enabled.
