@@ -11,19 +11,23 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLModDisabledEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+
+import java.util.Map;
+
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = StopDrop.MODID, name = StopDrop.NAME, version = StopDrop.VERSION, updateJSON = "https://github.com/MoSadie/StopDrop/raw/master/updateJSON.json", clientSideOnly = true)
-public class StopDrop
+import io.github.mosadie.stopdrop.api.IBlockableKey;
+
+@Mod(modid = BlocKey.MODID, name = BlocKey.NAME, version = BlocKey.VERSION, updateJSON = "https://github.com/MoSadie/BlocKey/raw/master/updateJSON.json")
+public class BlocKey
 {
-    public static final String MODID = "stopdrop";
-    public static final String NAME = "Stop Drop";
+    public static final String MODID = "blockkey";
+    public static final String NAME = "BlocKey";
     public static final String VERSION = "1.0.0";
 
     static Logger logger;
     private SDEventHandler eventHandler;
-    private KeyBinding origKeyBind;
-    private KeyBinding newKeyBind;
+    private Map<String, Map<String, IBlockableKey>> registeredMods;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -36,7 +40,7 @@ public class StopDrop
         MinecraftForge.EVENT_BUS.register(eventHandler);
         
         // Create override keybind
-        newKeyBind = new KeyBinding("stopdrop.key.drop", 999, "stopdrop.key.category");
+        overrideKeyBind = new KeyBinding("blockey.key.override", 999, "blockey.key.category");
     }
     
     @EventHandler
@@ -83,9 +87,9 @@ public class StopDrop
      */
     public void sendStatusMessage() {
     	if (getStatus()) {
-        	Minecraft.getMinecraft().player.sendMessage(new TextComponentTranslation("command.stopdrop.status.enabled"));
+        	Minecraft.getMinecraft().player.sendMessage(new TextComponentTranslation("command.blockey.status.enabled"));
     	} else {
-    		Minecraft.getMinecraft().player.sendMessage(new TextComponentTranslation("command.stopdrop.status.disabled"));
+    		Minecraft.getMinecraft().player.sendMessage(new TextComponentTranslation("command.blockey.status.disabled"));
     	}
     }
 }

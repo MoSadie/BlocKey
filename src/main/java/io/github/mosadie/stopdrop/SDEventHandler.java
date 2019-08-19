@@ -7,9 +7,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class SDEventHandler {
 	
-	private final StopDrop sd;
+	private final BlocKey sd;
 	
-	public SDEventHandler(StopDrop sd) {
+	public SDEventHandler(BlocKey sd) {
 		this.sd = sd;
 	}
 	

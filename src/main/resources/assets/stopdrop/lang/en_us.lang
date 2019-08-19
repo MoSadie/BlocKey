@@ -1,5 +1,5 @@
 # Key Binding Names
-stopdrop.key.drop=Drop Item
+stopdrop.key.override=Overriding Key
 
 # Key Category Name
 stopdrop.key.category=StopDrop
