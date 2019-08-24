@@ -1,4 +1,4 @@
-package io.github.mosadie.stopdrop;
+package io.github.mosadie.blockey;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
@@ -6,6 +6,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLModDisabledEvent;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 import org.apache.logging.log4j.Logger;
 
-import io.github.mosadie.stopdrop.api.IBlockableKey;
+import io.github.mosadie.blockey.api.IBlockableKey;
 
 @Mod(modid = BlocKey.MODID, name = BlocKey.NAME, version = BlocKey.VERSION, updateJSON = "https://github.com/MoSadie/BlocKey/raw/master/updateJSON.json")
 public class BlocKey
@@ -24,9 +25,12 @@ public class BlocKey
     public static final String MODID = "blockkey";
     public static final String NAME = "BlocKey";
     public static final String VERSION = "1.0.0";
-
+    
+    @SidedProxy(modId = BlocKey.MODID, clientSide = "io.github.mosadie.blockey.ClientProxy", serverSide = "io.github.mosadie.blockey.ServerProxy")
+    private static IProxy proxy;
+    
     static Logger logger;
-    private SDEventHandler eventHandler;
+    private BKEventHandler eventHandler;
     private Map<String, Map<String, IBlockableKey>> registeredMods;
 
     @EventHandler
@@ -36,7 +40,7 @@ public class BlocKey
         logger = event.getModLog();
         
         // Setup event handler
-        eventHandler = new SDEventHandler(this);
+        eventHandler = new BKEventHandler(this);
         MinecraftForge.EVENT_BUS.register(eventHandler);
         
         // Create override keybind

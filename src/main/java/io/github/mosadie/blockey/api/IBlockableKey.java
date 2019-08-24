@@ -1,4 +1,4 @@
-package io.github.mosadie.stopdrop.api;
+package io.github.mosadie.blockey.api;
 
 /**
  * Classes that inplement this are able to handle enabling/disabling keybindings.

@@ -1,0 +1,9 @@
+# Key Binding Names
+blockey.key.override=Overriding Key
+
+# Key Category Name
+blockey.key.category=BlocKey
+
+# Command Text
+command.blockey.status.disabled=[StopDrop] Drop key blocking is disabled.
+command.blockey.status.enabled=[StopDrop] Drop key blocking is enabled.

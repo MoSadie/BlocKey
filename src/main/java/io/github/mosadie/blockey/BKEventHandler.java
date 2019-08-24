@@ -1,15 +1,15 @@
-package io.github.mosadie.stopdrop;
+package io.github.mosadie.blockey;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.client.event.ClientChatEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class SDEventHandler {
+public class BKEventHandler {
 	
 	private final BlocKey sd;
 	
-	public SDEventHandler(BlocKey sd) {
+	public BKEventHandler(BlocKey sd) {
 		this.sd = sd;
 	}
 	

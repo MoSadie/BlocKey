@@ -1,9 +1,0 @@
-# Key Binding Names
-stopdrop.key.override=Overriding Key
-
-# Key Category Name
-stopdrop.key.category=StopDrop
-
-# Command Text
-command.stopdrop.status.disabled=[StopDrop] Drop key blocking is disabled.
-command.stopdrop.status.enabled=[StopDrop] Drop key blocking is enabled.
