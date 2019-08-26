@@ -12,12 +12,14 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLModDisabledEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 import java.util.Map;
 
 import org.apache.logging.log4j.Logger;
 
 import io.github.mosadie.blockey.api.IBlockableKey;
+import io.github.mosadie.blockey.server.CommandBlocKey;
 
 @Mod(modid = BlocKey.MODID, name = BlocKey.NAME, version = BlocKey.VERSION, updateJSON = "https://github.com/MoSadie/BlocKey/raw/master/updateJSON.json")
 public class BlocKey
@@ -27,7 +29,7 @@ public class BlocKey
     public static final String VERSION = "1.0.0";
     
     @SidedProxy(modId = BlocKey.MODID, clientSide = "io.github.mosadie.blockey.ClientProxy", serverSide = "io.github.mosadie.blockey.ServerProxy")
-    private static IProxy proxy;
+	public static IProxy proxy;
     
     static Logger logger;
     private BKEventHandler eventHandler;
@@ -59,41 +61,9 @@ public class BlocKey
     	
     	logger.info("Registered alternate key binding.");
     }
-    
-    /**
-     * Enables the drop key blocking.
-     */
-    public void enable() {
-    	Minecraft.getMinecraft().gameSettings.keyBindDrop = newKeyBind;
-    	logger.info("Enabled drop key blocking!");
-    }
-    
-    /**
-     * Disables the mod/drop key blocking.
-     * @param event The disabled event from FML, currently unused, can be null.
-     */
+
     @EventHandler
-    public void disable(FMLModDisabledEvent event) {
-    	Minecraft.getMinecraft().gameSettings.keyBindDrop = origKeyBind;
-    	logger.info("Disabled drop key blocking!");
-    }
-    
-    /**
-     * Gets if the drop key cancellation is enabled.
-     * @return true if the drop key is disabled, false otherwise.
-     */
-    public boolean getStatus() {
-    	return Minecraft.getMinecraft().gameSettings.keyBindDrop == newKeyBind;
-    }
-    
-    /**
-     * Sends a message to the player telling them if drop key cancellation is enabled.
-     */
-    public void sendStatusMessage() {
-    	if (getStatus()) {
-        	Minecraft.getMinecraft().player.sendMessage(new TextComponentTranslation("command.blockey.status.enabled"));
-    	} else {
-    		Minecraft.getMinecraft().player.sendMessage(new TextComponentTranslation("command.blockey.status.disabled"));
-    	}
+    public void serverLoad(FMLServerStartingEvent event) {
+    	event.registerServerCommand(new CommandBlocKey(this));
     }
 }

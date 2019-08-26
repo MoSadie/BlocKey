@@ -7,3 +7,5 @@ blockey.key.category=BlocKey
 # Command Text
 command.blockey.status.disabled=[StopDrop] Drop key blocking is disabled.
 command.blockey.status.enabled=[StopDrop] Drop key blocking is enabled.
+command.blockey.advanced.usage=/blockey <enable/disable/status> [modid:]<key> [player] OR /blockey list [modid]
+command.blockey.basic.usage=/blockey <enable/disable/status> [modid:]<key> OR /blockey list [modid]

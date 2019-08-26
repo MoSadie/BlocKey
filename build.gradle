@@ -12,8 +12,8 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 
 version = "1.0.0"
-group = "io.github.mosadie.stopdrop" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "StopDrop"
+group = "io.github.mosadie.blockey" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "BlocKey"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 compileJava {
