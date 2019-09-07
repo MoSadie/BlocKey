@@ -11,20 +11,20 @@ public class ToggleKeyMessage implements IMessage {
 	public ToggleKeyMessage() {
 	}
 	
-	public ToggleKeyMessage(String modid, String key, boolean enableKey) {
-		this.modid = modid;
+	public ToggleKeyMessage(String modId, String key, boolean enableKey) {
+		this.modId = modId;
 		this.key = key;
 		this.enableKey = enableKey;
 	}
 	
-	private String modid;
+	private String modId;
 	private String key;
 	private boolean enableKey;
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		int modidLength = buf.readInt();
-		modid = (String) buf.readCharSequence(modidLength, StandardCharsets.UTF_8);
+		int modIdLength = buf.readInt();
+		modId = (String) buf.readCharSequence(modIdLength, StandardCharsets.UTF_8);
 		int keyLength = buf.readInt();
 		key = (String) buf.readCharSequence(keyLength, StandardCharsets.UTF_8);
 		enableKey = buf.readBoolean();
@@ -32,8 +32,8 @@ public class ToggleKeyMessage implements IMessage {
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(modid.getBytes(StandardCharsets.UTF_8).length);
-		buf.writeCharSequence(modid, StandardCharsets.UTF_8);
+		buf.writeInt(modId.getBytes(StandardCharsets.UTF_8).length);
+		buf.writeCharSequence(modId, StandardCharsets.UTF_8);
 		
 		buf.writeInt(key.getBytes(StandardCharsets.UTF_8).length);
 		buf.writeCharSequence(key, StandardCharsets.UTF_8);
@@ -41,4 +41,15 @@ public class ToggleKeyMessage implements IMessage {
 		buf.writeBoolean(enableKey);
 	}
 
+	public String getModId() {
+		return modId;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public boolean getEnableKey() {
+		return enableKey;
+	}
 }

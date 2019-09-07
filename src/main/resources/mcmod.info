@@ -2,7 +2,7 @@
 {
   "modid": "stopdrop",
   "name": "Stop Drop",
-  "description": "Fixes the problem of accidently dropping things, by removing the ability to drop things!",
+  "description": "Fixes the problem of accidentally dropping things, by removing the ability to drop things!",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "authorList": ["MoSadie"],

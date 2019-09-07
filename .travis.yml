@@ -10,7 +10,7 @@ deploy:
   api_key:
     secure: ICrSMOlV4CeR89CkGcsn0122XVNBj6Ii90uqu53dxwt3Lz6EvTDeIvg9ly+GpvRyZ1DwTAvz7E31Hr5QHFfD4WqLOmsfUiNUC3P2CQ+Q7LKxgWBgKfmAwMacHHdat2EpkhXK9mxaM+Q0iosW4C8oRf0Lptj+mGKj8t709Ere5UiZxzcwoKG+tr2E6PIZxkxddJmlTSoCWJfvjB8UMDQBHJHuYoQJ4CAbKF6NNUAbKkbKwilmagp3Go6P4DX6t/uhVHwt2a18eCx4Ta4UfYX7ExddIaTgiSywqUXtq4gQ4rSVBP3BdpyZqeEzBND0w6sYi4DPx1cb0/t0Dum/SXptiCZuvZZVrwX4Lfwheek0gXdK1/+vJKCk9wUfC7Uv5jBlCAZQ/e9xef4QFLAp6pKbhBTfWb6G6KXHOGok6s/3tKDF3HegmDXeRA3/klYuwI/qy0aP+qrXWTpqIKxzXE4EowuONoeOseG322rqWfTCo2zlRID7hTHK601yi9qMUqFUUhAjCB0FbrBb+/k0K71Z7NQ7tiwfWuMAoOxn2UmkHzBv5KXyy+WFDsPhB3yQvPAdK0GhCSoZo+pYPvxfs6ZoscygE+7AolBdBRkNxpUWnSGX+znbY4BmkgESszBnL0WAKXnp7siNS+sbuO4rL4N2ffowx9BStuF9dFmk3KBXHvU=
   file_glob: true
-  file: $TRAVIS_BUILD_DIR/build/libs/StopDrop-*.jar
+  file: $TRAVIS_BUILD_DIR/build/libs/BlocKey-*.jar
   skip_cleanup: true
   on:
     tags: on

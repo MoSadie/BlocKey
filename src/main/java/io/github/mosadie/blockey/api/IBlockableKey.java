@@ -9,13 +9,15 @@ public interface IBlockableKey {
      * Enables a keybinding, if not already enabled.
      * If already enabled, does nothing.
      * @param keyId The key ID for the keybinding to enable.
+     * @returns False if something went wrong enabling the keybinding, true otherwise.
      */
-    public void enableKeybinding(String keyId);
+    public boolean enableKeybinding(String keyId);
 
     /**
      * Disables a keybinding, if not already disabled.
      * If already disabled, does nothing.
      * @param keyId The key ID for the keybinding to disable.
+     * @returns False if something went wrong enabling the keybinding, true otherwise.
      */
-    public void disableKeybindind(String keyid);
+    public boolean disableKeybinding(String keyid);
 }
