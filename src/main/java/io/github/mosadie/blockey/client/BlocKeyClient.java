@@ -2,7 +2,7 @@ package io.github.mosadie.blockey.client;
 
 import io.github.mosadie.blockey.BlocKey;
 import io.github.mosadie.blockey.api.IBlockableKey;
-import io.github.mosadie.blockey.common.event.BlocKeyRegisterEvent;
+import io.github.mosadie.blockey.client.event.BlocKeyRegisterEvent;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
@@ -22,6 +22,7 @@ public class BlocKeyClient {
 
     private Map<String, Map<String, IBlockableKey>> registeredMods;
 
+    //TODO See if custom KeyBinding class is better than key 999.
     private KeyBinding overrideKey = new KeyBinding("blockey.key.override", 999, "blockey.key.category");
 
     public BlocKeyClient(BlocKey blocKey, Logger logger) {
@@ -30,7 +31,7 @@ public class BlocKeyClient {
         registeredMods = new TreeMap<>();
         ClientCommandHandler.instance.registerCommand(new CommandBlocKeyClient(this));
 
-        eventHandler = new BKClientEventHandler(this);
+        eventHandler = new BKClientEventHandler();
         MinecraftForge.EVENT_BUS.register(eventHandler);
 
         MinecraftForge.EVENT_BUS.post(new BlocKeyRegisterEvent(this));
@@ -72,18 +73,24 @@ public class BlocKeyClient {
     }
 
     public boolean enableKey(String modId, String key) {
-        if (!registeredMods.containsKey(modId) || !registeredMods.get(modId).containsKey(key)) {
-            return false;
-        }
-
-        return registeredMods.get(modId).get(key).enableKeybinding(key);
+        return toggleKey(modId, key, true);
     }
 
     public boolean disableKey(String modId, String key) {
+        return toggleKey(modId, key, false);
+    }
+
+    public boolean toggleKey(String modId, String key, boolean enableKey) {
+        modId = modId.toLowerCase().trim();
+        key = key.toLowerCase().trim();
         if (!registeredMods.containsKey(modId) || !registeredMods.get(modId).containsKey(key)) {
             return false;
         }
 
-        return registeredMods.get(modId).get(key).disableKeybinding(key);
+        if (enableKey) {
+            return registeredMods.get(modId).get(key).enableKeybinding(key);
+        } else {
+            return registeredMods.get(modId).get(key).disableKeybinding(key);
+        }
     }
 }

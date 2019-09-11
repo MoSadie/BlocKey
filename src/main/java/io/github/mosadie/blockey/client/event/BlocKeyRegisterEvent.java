@@ -1,4 +1,4 @@
-package io.github.mosadie.blockey.common.event;
+package io.github.mosadie.blockey.client.event;
 
 import io.github.mosadie.blockey.api.IBlockableKey;
 import io.github.mosadie.blockey.client.BlocKeyClient;

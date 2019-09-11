@@ -1,8 +1,8 @@
 [
 {
-  "modid": "stopdrop",
-  "name": "Stop Drop",
-  "description": "Fixes the problem of accidentally dropping things, by removing the ability to drop things!",
+  "modid": "blockey",
+  "name": "BlocKey",
+  "description": "Allows users and servers to disable/enable keybindings in game.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "authorList": ["MoSadie"],

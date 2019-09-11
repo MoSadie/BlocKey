@@ -2,6 +2,8 @@ package io.github.mosadie.blockey;
 
 import io.github.mosadie.blockey.client.BKClientEventHandler;
 import io.github.mosadie.blockey.client.BlocKeyClient;
+import io.github.mosadie.blockey.server.BlocKeyServer;
+import io.github.mosadie.blockey.server.CommandBlocKey;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -23,13 +25,13 @@ public class BlocKey
 {
     public static final String MODID = "blockey";
     public static final String NAME = "BlocKey";
-    public static final String VERSION = "1.0.0";
+    public static final String VERSION = "2.0.0";
 
     static Logger logger;
     private Map<String, Map<String, IBlockableKey>> registeredMods;
 
     private BlocKeyClient blocKeyClient;
-    //private BlocKeyServer blocKeyServer;
+    private BlocKeyServer blocKeyServer;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -39,8 +41,6 @@ public class BlocKey
 
         if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
             blocKeyClient = new BlocKeyClient(this, logger);
-                                               //command.blockeyclient.success
-            logger.info("BANANA " + I18n.hasKey("command.blockeyclient.success") + " " + I18n.format("command.blockeyclient.success", 1, 2));
         }
     }
     
@@ -56,6 +56,18 @@ public class BlocKey
 
     @EventHandler
     public void serverLoad(FMLServerStartingEvent event) {
-    	//blocKeyServer = new BlocKeyServer(this);
+        logger.info("Creating BlocKey Sever object.");
+    	blocKeyServer = new BlocKeyServer(this);
+
+        logger.info("Registering BlocKey command.");
+    	event.registerServerCommand(new CommandBlocKey(blocKeyServer));
+    }
+
+    public BlocKeyClient getBlocKeyClient() {
+        return blocKeyClient;
+    }
+
+    public BlocKeyServer getBlocKeyServer() {
+        return blocKeyServer;
     }
 }
