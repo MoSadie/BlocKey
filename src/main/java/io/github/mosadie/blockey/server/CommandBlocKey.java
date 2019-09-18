@@ -1,20 +1,14 @@
 package io.github.mosadie.blockey.server;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import io.github.mosadie.blockey.BlocKey;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.PlayerNotFoundException;
-import net.minecraft.command.WrongUsageException;
+import net.minecraft.command.*;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.event.world.NoteBlockEvent;
+import net.minecraftforge.fml.server.FMLServerHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class CommandBlocKey extends CommandBase {
 
@@ -120,7 +114,7 @@ public class CommandBlocKey extends CommandBase {
 				try {
 					player = getCommandSenderAsPlayer(sender);
 				} catch (PlayerNotFoundException e) {
-					notifyCommandListener(sender, this, "command.blockey.error.generic");
+					notifyCommandListener(sender, this, "command.blockey.error.playernotfound");
 					return;
 				}
 
@@ -179,8 +173,114 @@ public class CommandBlocKey extends CommandBase {
 
 				blocKeyServer.disableKey(player, modId, key);
 				notifyCommandListener(sender, this, "command.blockey.success", player.getName(), key, modId);
-				break;
+				return;
+			}
+		} else {
+			if (args.length > 3) {
+				throw new WrongUsageException("command.blockey.basic.usage");
+			}
+			String modId;
+			String key;
+			EntityPlayerMP player;
+			switch(args[0].toLowerCase()) {
+				case "enable":
+					if (args.length < 2 || args.length > 3) {
+						throw new WrongUsageException("command.blockey.basic.usage");
+					}
 
+					modId = "minecraft";
+					key = args[1];
+
+					if (args[1].contains(":")) {
+						String[] split = args[1].split(":");
+						if (split.length > 1) {
+							modId = split[0];
+							key = "";
+							for (int i = 1; i < split.length; i++) {
+								key += split[i];
+							}
+						}
+					}
+
+					modId = modId.toLowerCase();
+					key = key.toLowerCase();
+
+					try {
+						if (args.length == 2)
+							player = getCommandSenderAsPlayer(sender);
+						else {
+							player = FMLServerHandler.instance().getServer().getPlayerList().getPlayerByUsername(args[2]);
+						}
+					} catch (PlayerNotFoundException e) {
+						notifyCommandListener(sender, this, "command.blockey.error.playernotfound");
+						return;
+					}
+
+					if (!blocKeyServer.hasMod(player, modId)) {
+						notifyCommandListener(sender, this, "command.blockey.error.modnotfound", modId);
+						return;
+					}
+
+					if (!blocKeyServer.hasKey(player, modId, key)) {
+						notifyCommandListener(sender, this, "command.blockey.error.keynotfound", key, modId);
+						return;
+					}
+
+					blocKeyServer.enableKey(player, modId, key);
+					notifyCommandListener(sender, this, "command.blockey.success", player.getName(), key, modId);
+					return;
+
+				case "disable":
+					if (args.length < 2 || args.length > 3) {
+						throw new WrongUsageException("command.blockey.basic.usage");
+					}
+
+					modId = "minecraft";
+					key = args[1];
+
+					if (args[1].contains(":")) {
+						String[] split = args[1].split(":");
+						if (split.length > 1) {
+							modId = split[0];
+							key = "";
+							for (int i = 1; i < split.length; i++) {
+								key += split[i];
+							}
+						}
+					}
+
+					modId = modId.toLowerCase();
+					key = key.toLowerCase();
+
+					try {
+						if (args.length == 2)
+							player = getCommandSenderAsPlayer(sender);
+						else {
+							player = FMLServerHandler.instance().getServer().getPlayerList().getPlayerByUsername(args[2]);
+						}
+					} catch (PlayerNotFoundException e) {
+						notifyCommandListener(sender, this, "command.blockey.error.playernotfound");
+						return;
+					}
+
+					if (player == null) {
+						notifyCommandListener(sender, this, "command.blockey.error.playernotfound");
+						return;
+					}
+
+					if (!blocKeyServer.hasMod(player, modId)) {
+						notifyCommandListener(sender, this, "command.blockey.error.modnotfound", modId);
+						return;
+					}
+
+					if (!blocKeyServer.hasKey(player, modId, key)) {
+						notifyCommandListener(sender, this, "command.blockey.error.keynotfound", key, modId);
+						return;
+					}
+
+					blocKeyServer.disableKey(player, modId, key);
+					notifyCommandListener(sender, this, "command.blockey.success", player.getName(), key, modId);
+					return;
 			}
 		}
 	}

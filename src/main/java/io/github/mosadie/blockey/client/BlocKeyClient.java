@@ -3,6 +3,7 @@ package io.github.mosadie.blockey.client;
 import io.github.mosadie.blockey.BlocKey;
 import io.github.mosadie.blockey.api.IBlockableKey;
 import io.github.mosadie.blockey.client.event.BlocKeyRegisterEvent;
+import io.github.mosadie.blockey.network.BlocKeyPacketHandler;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
@@ -29,12 +30,20 @@ public class BlocKeyClient {
         this.blocKey = blocKey;
         this.logger = logger;
         registeredMods = new TreeMap<>();
+
         ClientCommandHandler.instance.registerCommand(new CommandBlocKeyClient(this));
+        blocKey.getLogger().info("Registered Client Command");
+
+        BlocKeyPacketHandler.registerMessages();
+        blocKey.getLogger().info("Registered Client Messages");
 
         eventHandler = new BKClientEventHandler();
         MinecraftForge.EVENT_BUS.register(eventHandler);
+        blocKey.getLogger().info("Registered Client Event Handler");
 
+        blocKey.getLogger().info("Posting Register Event");
         MinecraftForge.EVENT_BUS.post(new BlocKeyRegisterEvent(this));
+        blocKey.getLogger().info("Posted Register Event");
     }
 
     public void registerOverrideKey() {
@@ -62,14 +71,20 @@ public class BlocKeyClient {
     }
 
     public List<String> exportRegisteredKeys() {
+        blocKey.getLogger().debug("Exporting keys");
         List<String> list = new ArrayList<>();
         for(String modId : registeredMods.keySet()) {
             for(String key : registeredMods.get(modId).keySet()) {
+                blocKey.getLogger().debug("Adding key " + modId + ":" + key);
                 list.add(modId + ":" + key);
             }
         }
-
+        blocKey.getLogger().debug("Export complete: Keys: \n" + list);
         return list;
+    }
+
+    public boolean hasKey(String modId, String key) {
+        return registeredMods.containsKey(modId) && registeredMods.get(modId).containsKey(key);
     }
 
     public boolean enableKey(String modId, String key) {
@@ -87,10 +102,20 @@ public class BlocKeyClient {
             return false;
         }
 
+        blocKey.getLogger().info("Attempting to " +(enableKey ? "enable" : "disable") + " Key " + key + " from Mod " + modId);
+
         if (enableKey) {
             return registeredMods.get(modId).get(key).enableKeybinding(key);
         } else {
             return registeredMods.get(modId).get(key).disableKeybinding(key);
+        }
+    }
+
+    public boolean getIfKeyEnabled(String modId, String key) {
+        if (hasKey(modId, key)) {
+            return registeredMods.get(modId).get(key).getKeybindingStatus(key);
+        } else {
+            return false;
         }
     }
 }

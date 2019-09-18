@@ -22,7 +22,7 @@ public class ListKeyMessageHandler implements IMessageHandler<ListKeyMessage, IM
                 String fullKey = scanner.nextLine();
 
                 if (fullKey.contains(":")) {
-                    BlocKeyServer server = ((BlocKey) FMLCommonHandler.instance().findContainerFor(BlocKey.MODID)).getBlocKeyServer();
+                    BlocKeyServer server = ((BlocKey) FMLCommonHandler.instance().findContainerFor(BlocKey.MODID).getMod()).getBlocKeyServer();
                     String[] split = fullKey.split(":");
                     String modId = split[0];
                     String key = split[1];

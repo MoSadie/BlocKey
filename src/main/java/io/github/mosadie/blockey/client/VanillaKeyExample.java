@@ -267,6 +267,79 @@ public class VanillaKeyExample implements IBlockableKey {
         }
     }
 
+    public boolean getKeybindingStatus(String keyId) {
+        switch(keyId) {
+            case "forward":
+                return Minecraft.getMinecraft().gameSettings.keyBindForward == vanillaKeys.get("forward");
+            case "left":
+                return Minecraft.getMinecraft().gameSettings.keyBindLeft == vanillaKeys.get("left");
+            case "back":
+                return Minecraft.getMinecraft().gameSettings.keyBindBack == vanillaKeys.get("back");
+            case "right":
+                return Minecraft.getMinecraft().gameSettings.keyBindRight == vanillaKeys.get("right");
+            case "jump":
+                return Minecraft.getMinecraft().gameSettings.keyBindJump == vanillaKeys.get("jump");
+            case "sneak":
+                return Minecraft.getMinecraft().gameSettings.keyBindSneak == vanillaKeys.get("sneak");
+            case "sprint":
+                return Minecraft.getMinecraft().gameSettings.keyBindSprint == vanillaKeys.get("sprint");
+            case "inventory":
+                return Minecraft.getMinecraft().gameSettings.keyBindInventory == vanillaKeys.get("inventory");
+            case "swap_hands":
+                return Minecraft.getMinecraft().gameSettings.keyBindSwapHands == vanillaKeys.get("swap_hands");
+            case "drop":
+                return Minecraft.getMinecraft().gameSettings.keyBindDrop == vanillaKeys.get("drop");
+            case "use":
+                return Minecraft.getMinecraft().gameSettings.keyBindUseItem == vanillaKeys.get("use");
+            case "attack":
+                return Minecraft.getMinecraft().gameSettings.keyBindAttack == vanillaKeys.get("attack");
+            case "pick_block":
+                return Minecraft.getMinecraft().gameSettings.keyBindPickBlock == vanillaKeys.get("pick_block");
+            case "chat":
+                return Minecraft.getMinecraft().gameSettings.keyBindChat == vanillaKeys.get("chat");
+            case "player_list":
+                return Minecraft.getMinecraft().gameSettings.keyBindPlayerList == vanillaKeys.get("player_list");
+            case "command":
+                return Minecraft.getMinecraft().gameSettings.keyBindCommand == vanillaKeys.get("command");
+            case "screenshot":
+                return Minecraft.getMinecraft().gameSettings.keyBindScreenshot == vanillaKeys.get("screenshot");
+            case "toggle_perspective":
+                return Minecraft.getMinecraft().gameSettings.keyBindTogglePerspective == vanillaKeys.get("toggle_perspective");
+            case "smooth_camera":
+                return Minecraft.getMinecraft().gameSettings.keyBindSmoothCamera == vanillaKeys.get("smooth_camera");
+            case "fullscreen":
+                return Minecraft.getMinecraft().gameSettings.keyBindFullscreen == vanillaKeys.get("fullscreen");
+            case "spectator_outlines":
+                return Minecraft.getMinecraft().gameSettings.keyBindSpectatorOutlines == vanillaKeys.get("spectator_outlines");
+            case "advancements":
+                return Minecraft.getMinecraft().gameSettings.keyBindAdvancements == vanillaKeys.get("advancements");
+            case "hotbar_1":
+                return Minecraft.getMinecraft().gameSettings.keyBindsHotbar[0] == vanillaKeys.get("hotbar_1");
+            case "hotbar_2":
+                return Minecraft.getMinecraft().gameSettings.keyBindsHotbar[1] == vanillaKeys.get("hotbar_2");
+            case "hotbar_3":
+                return Minecraft.getMinecraft().gameSettings.keyBindsHotbar[2] == vanillaKeys.get("hotbar_3");
+            case "hotbar_4":
+                return Minecraft.getMinecraft().gameSettings.keyBindsHotbar[3] == vanillaKeys.get("hotbar_4");
+            case "hotbar_5":
+                return Minecraft.getMinecraft().gameSettings.keyBindsHotbar[4] == vanillaKeys.get("hotbar_5");
+            case "hotbar_6":
+                return Minecraft.getMinecraft().gameSettings.keyBindsHotbar[5] == vanillaKeys.get("hotbar_6");
+            case "hotbar_7":
+                return Minecraft.getMinecraft().gameSettings.keyBindsHotbar[6] == vanillaKeys.get("hotbar_7");
+            case "hotbar_8":
+                return Minecraft.getMinecraft().gameSettings.keyBindsHotbar[7] == vanillaKeys.get("hotbar_8");
+            case "hotbar_9":
+                return Minecraft.getMinecraft().gameSettings.keyBindsHotbar[8] == vanillaKeys.get("hotbar_9");
+            case "save_toolbar":
+                return Minecraft.getMinecraft().gameSettings.keyBindSaveToolbar == vanillaKeys.get("save_toolbar");
+            case "load_toolbar":
+                return Minecraft.getMinecraft().gameSettings.keyBindLoadToolbar == vanillaKeys.get("load_toolbar");
+            default:
+                return false;
+        }
+    }
+
     Set<String> getKeys() {
         return vanillaKeys.keySet();
     }

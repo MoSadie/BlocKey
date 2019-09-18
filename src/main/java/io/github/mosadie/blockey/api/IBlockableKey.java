@@ -19,5 +19,12 @@ public interface IBlockableKey {
      * @param keyId The key ID for the keybinding to disable.
      * @returns False if something went wrong enabling the keybinding, true otherwise.
      */
-    public boolean disableKeybinding(String keyid);
+    public boolean disableKeybinding(String keyId);
+
+    /**
+     * Gets the enable/disable status of a keybinding.
+     * @param keyId The key ID to get the status of.
+     * @returns True if the key is enabled, false otherwise.
+     */
+    public boolean getKeybindingStatus(String keyId);
 }
