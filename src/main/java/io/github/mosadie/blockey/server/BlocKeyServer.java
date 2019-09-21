@@ -1,7 +1,13 @@
 package io.github.mosadie.blockey.server;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+
 import com.mojang.authlib.GameProfile;
+
 import io.github.mosadie.blockey.BlocKey;
+import io.github.mosadie.blockey.common.KeyStatus;
 import io.github.mosadie.blockey.network.BlocKeyPacketHandler;
 import io.github.mosadie.blockey.network.RegisterKeyMessage;
 import io.github.mosadie.blockey.network.ToggleKeyMessage;
@@ -9,14 +15,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.server.FMLServerHandler;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class BlocKeyServer {
 
-    private Map<EntityPlayerMP, Map<String, List<String>>> players;
+    private Map<EntityPlayerMP, Map<String, Map<String, KeyStatus>>> players;
     private final BlocKey blocKey;
 
     public BlocKeyServer(BlocKey blocKey) {
@@ -49,12 +50,12 @@ public class BlocKeyServer {
         }
 
         if (!players.get(player).containsKey(modId)) {
-            players.get(player).put(modId, new ArrayList<>());
+            players.get(player).put(modId, new TreeMap<>());
             blocKey.getLogger().info("Added Mod " + modId + " to Player " + player.getName() + "'s Map");
         }
 
-        if (!players.get(player).get(modId).contains(key)){
-            players.get(player).get(modId).add(key);
+        if (!players.get(player).get(modId).containsKey(key)){
+            players.get(player).get(modId).put(key, KeyStatus.ERROR); //TODO: Check if error clears automatically.
             blocKey.getLogger().info("Added Key " + key + " to Player " + player.getName() + "'s " + modId + " Map");
         }
     }
@@ -64,7 +65,21 @@ public class BlocKeyServer {
     }
 
     public boolean hasKey(EntityPlayerMP player, String modId, String key) {
-        return hasMod(player, modId) && players.get(player).get(modId.toLowerCase()).contains(key.toLowerCase());
+        return hasMod(player, modId) && players.get(player).get(modId.toLowerCase()).containsKey(key.toLowerCase());
+    }
+
+    public KeyStatus getKeyStatus(EntityPlayerMP player, String modId, String key) {
+        if (hasKey(player, modId, key)) {
+            return players.get(player).get(modId).get(key);
+        }
+
+        return KeyStatus.ERROR;
+    }
+
+    public void setKeyStatus(EntityPlayerMP player, String modId, String key, KeyStatus status) {
+        if (hasKey(player, modId, key)) {
+            players.get(player).get(modId).put(key, status);
+        }
     }
 
     public void enableKey(EntityPlayerMP player, String modId, String key) {

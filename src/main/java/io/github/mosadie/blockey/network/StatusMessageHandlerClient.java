@@ -23,6 +23,7 @@ public class StatusMessageHandlerClient implements IMessageHandler<StatusMessage
                     reply.addKeyStatus(key, KeyStatus.ERROR);
                 }
             }
+            BlocKeyPacketHandler.INSTANCE.sendToServer(reply);
         });
         return null;
     }
