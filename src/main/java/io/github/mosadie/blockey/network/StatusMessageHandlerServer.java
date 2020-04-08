@@ -16,7 +16,10 @@ public class StatusMessageHandlerServer implements IMessageHandler<StatusMessage
         EntityPlayerMP player = ctx.getServerHandler().player;
 
         player.getServerWorld().addScheduledTask(() -> {
-            BlocKeyServer server = ((BlocKey) FMLCommonHandler.instance().findContainerFor(BlocKey.MODID).getMod()).getBlocKeyServer();
+            BlocKey blocKey = (BlocKey) FMLCommonHandler.instance().findContainerFor(BlocKey.MODID).getMod();
+            BlocKeyServer server = blocKey.getBlocKeyServer();
+
+            blocKey.getLogger().debug("Received StatusMessage from player " + player.getName());
 
             for (String key : message.getKeys()) {
                 KeyStatus status = message.getKeyStatus(key);
@@ -26,7 +29,10 @@ public class StatusMessageHandlerServer implements IMessageHandler<StatusMessage
                 String keyId = split[1];
                 
                 if (server.hasKey(player, modId, keyId)) {
-                    server.setKeyStatus(player, modId, key, status);
+                    server.setKeyStatus(player, modId, keyId, status);
+                    blocKey.getLogger().debug("Set status for key " + keyId + " from mod " + modId + " to " + status.toString());
+                } else {
+                    blocKey.getLogger().debug("Status update problem: Couldn't find key " + keyId + " from mod " + modId);
                 }
             }
         });

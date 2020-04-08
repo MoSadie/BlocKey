@@ -12,6 +12,9 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.client.IClientCommand;
 
 import javax.annotation.Nullable;
+
+import io.github.mosadie.blockey.common.Util;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,7 +65,14 @@ public class CommandBlocKeyClient implements IClientCommand {
                 break;
 
             case "status":
-                break;
+                String[] split = Util.splitKeyString(args[1]);
+                if (client.hasKey(split[0], split[1])) {
+                    sender.sendMessage(new TextComponentTranslation("command.blockeyclient.status", split[1], split[0], (client.getIfKeyEnabled(split[0], split[1]) ? "enabled" : "disabled")));
+                    return;
+                } else {
+                    sender.sendMessage(new TextComponentTranslation("command.blockeyclient.keynotfound", split[0] + ":" + split[1]));
+                    return;
+                }
 
             case "list":
                 break;

@@ -5,10 +5,21 @@ blockey.key.override=Overriding Key
 blockey.key.category=BlocKey
 
 # Command Text
-command.blockey.status.disabled=[StopDrop] Drop key blocking is disabled.
-command.blockey.status.enabled=[StopDrop] Drop key blocking is enabled.
 command.blockey.advanced.usage=/blockey <enable/disable/status> [modid:]<key> [player] OR /blockey list [modid]
+command.blockey.advanced.playernotfound=[BlocKey] Player %s not found
+
 command.blockey.basic.usage=/blockey <enable/disable/status> [modid:]<key> OR /blockey list [modid]
+
+command.blockey.status=[BlocKey] %s's %s key is currently %s.
+command.blockey.success=[BlocKey] %s's %s key (from mod %s) was successfully %s.
+
+command.blockey.error.generic=[BlocKey] Something went wrong, please try again.
+command.blockey.error.keynotfound=[BlocKey] Key %s from mod %s not found for player %s.
+command.blockey.error.modnotfound=[BlocKey] Mod %s not found for player %s.
+command.blockey.error.playernotfound=[BlocKey] Player %s not found.
+
 command.blockeyclient.usage=/blockeyclient <enable/disable/status> [modid:]<key> OR /blockeyclient list [modid]
 command.blockeyclient.success=[BlocKeyClient] Key %s (from mod %s) successfully %s.
 command.blockeyclient.failure=[BlocKeyClient] Key %s (from mod %s) fail to be %s. Please check your spelling and try again.
+command.blockeyclient.keynotfound=[BlocKeyClient] Key %s not found.
+command.blockeyclient.status=[BlocKeyClient] Key %s from mod %s is currently %s.

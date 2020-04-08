@@ -63,7 +63,7 @@ public class BlocKeyClient {
 
         if (!registeredMods.get(modId).containsKey(keyName)) {
             registeredMods.get(modId).put(keyName, keyHandler);
-            logger.info("Registered key " + keyName + " from modId " + modId);
+            logger.info("Registered key " + keyName + " from mod " + modId);
             return true;
         }
 

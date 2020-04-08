@@ -10,10 +10,11 @@ import io.github.mosadie.blockey.BlocKey;
 import io.github.mosadie.blockey.common.KeyStatus;
 import io.github.mosadie.blockey.network.BlocKeyPacketHandler;
 import io.github.mosadie.blockey.network.RegisterKeyMessage;
+import io.github.mosadie.blockey.network.StatusMessage;
 import io.github.mosadie.blockey.network.ToggleKeyMessage;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.server.FMLServerHandler;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class BlocKeyServer {
 
@@ -33,13 +34,14 @@ public class BlocKeyServer {
     void refreshPlayerMap() {
         blocKey.getLogger().info("Refreshing Player Map");
         players = new HashMap<>();
-        for(GameProfile profile : FMLServerHandler.instance().getServer().getOnlinePlayerProfiles()) {
-            EntityPlayerMP player = FMLServerHandler.instance().getServer().getPlayerList().getPlayerByUUID(profile.getId());
+        for(GameProfile profile : FMLCommonHandler.instance().getMinecraftServerInstance().getOnlinePlayerProfiles()) {
+            EntityPlayerMP player = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(profile.getId());
             if (player == null) {
                 continue;
             }
             blocKey.getLogger().debug("Sending Register Packet to " + player.getName());
             BlocKeyPacketHandler.INSTANCE.sendTo(new RegisterKeyMessage(), player);
+            updateKeyStatus(player);
         }
     }
 
@@ -60,8 +62,12 @@ public class BlocKeyServer {
         }
     }
 
+	public boolean hasPlayer(EntityPlayerMP player) {
+		return players.containsKey(player);
+	}
+
     public boolean hasMod(EntityPlayerMP player, String modId) {
-        return players.containsKey(player) && players.get(player).containsKey(modId.toLowerCase());
+        return hasPlayer(player) && players.get(player).containsKey(modId.toLowerCase());
     }
 
     public boolean hasKey(EntityPlayerMP player, String modId, String key) {
@@ -70,6 +76,7 @@ public class BlocKeyServer {
 
     public KeyStatus getKeyStatus(EntityPlayerMP player, String modId, String key) {
         if (hasKey(player, modId, key)) {
+            updateKeyStatus(player);
             return players.get(player).get(modId).get(key);
         }
 
@@ -78,7 +85,10 @@ public class BlocKeyServer {
 
     public void setKeyStatus(EntityPlayerMP player, String modId, String key, KeyStatus status) {
         if (hasKey(player, modId, key)) {
+            blocKey.getLogger().debug("Updated Key Status");
             players.get(player).get(modId).put(key, status);
+        } else {
+            blocKey.getLogger().error("Failed to update Key Status! " + hasPlayer(player) + " " + hasMod(player, modId) + " " + hasKey(player, modId, key) + " " + key + players.get(player).get(modId.toLowerCase()).keySet().contains(key));
         }
     }
 
@@ -86,6 +96,7 @@ public class BlocKeyServer {
         if (hasKey(player, modId, key)) {
             BlocKeyPacketHandler.INSTANCE.sendTo(new ToggleKeyMessage(modId, key, true), player);
             blocKey.getLogger().info("Sent enable packet to " + player.getName() + " (Mod: " + modId + " Key: " + key + ")");
+            updateKeyStatus(player);
         }
     }
 
@@ -93,6 +104,23 @@ public class BlocKeyServer {
         if (hasKey(player, modId, key)) {
             BlocKeyPacketHandler.INSTANCE.sendTo(new ToggleKeyMessage(modId, key, false), player);
             blocKey.getLogger().info("Sent disable packet to " + player.getName() + " (Mod: " + modId + " Key: " + key + ")");
+            updateKeyStatus(player);
+        }
+    }
+
+    public void updateKeyStatus(EntityPlayerMP player) {
+        if (players.containsKey(player)) {
+            blocKey.getLogger().debug("Creating update key status request for " + player.getName());
+            StatusMessage message = new StatusMessage();
+            for (String modId : players.get(player).keySet()){
+                for(String key : players.get(player).get(modId).keySet()) {
+                    message.addKeyStatus(modId + ":" + key, players.get(player).get(modId).get(key));
+                    blocKey.getLogger().debug("Added key " + modId + ":" + key + " to " + player.getName() + "'s update request packet.");
+                }
+            }
+
+            blocKey.getLogger().debug("Sending update key status request to " + player.getName());
+            BlocKeyPacketHandler.INSTANCE.sendTo(message, player);
         }
     }
 }

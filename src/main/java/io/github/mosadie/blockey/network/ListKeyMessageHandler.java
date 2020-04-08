@@ -18,17 +18,19 @@ public class ListKeyMessageHandler implements IMessageHandler<ListKeyMessage, IM
         String keyList = message.getKeyList();
         Scanner scanner = new Scanner(keyList);
         player.getServerWorld().addScheduledTask(() -> {
+            BlocKeyServer server = ((BlocKey) FMLCommonHandler.instance().findContainerFor(BlocKey.MODID).getMod()).getBlocKeyServer();
             while (scanner.hasNextLine()) {
                 String fullKey = scanner.nextLine();
 
                 if (fullKey.contains(":")) {
-                    BlocKeyServer server = ((BlocKey) FMLCommonHandler.instance().findContainerFor(BlocKey.MODID).getMod()).getBlocKeyServer();
                     String[] split = fullKey.split(":");
                     String modId = split[0];
                     String key = split[1];
-                    server.addPlayerKey(player, modId, key);
+                    server.addPlayerKey(player, modId.toLowerCase(), key.toLowerCase());
                 }
             }
+
+            server.updateKeyStatus(player);
         });
         return null;
     }

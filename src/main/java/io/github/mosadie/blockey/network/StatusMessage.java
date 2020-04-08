@@ -7,10 +7,15 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class StatusMessage implements IMessage {
 
     Map<String, KeyStatus> statusMap;
+
+    public StatusMessage() {
+        statusMap = new TreeMap<>();
+    }
 
     @Override
     public void fromBytes(ByteBuf buf) {
@@ -23,6 +28,7 @@ public class StatusMessage implements IMessage {
                 statusMap.put(split[0] + ":" + split[1], KeyStatus.stringToStatus(split[2]));
             }
         }
+        scanner.close();
     }
 
     @Override
@@ -44,6 +50,6 @@ public class StatusMessage implements IMessage {
     }
 
     public String[] getKeys() {
-        return (String[]) statusMap.keySet().toArray();
+        return statusMap.keySet().toArray(new String[0]);
     }
 }

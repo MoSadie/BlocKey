@@ -14,5 +14,7 @@ public class BlocKeyPacketHandler {
 		INSTANCE.registerMessage(ToggleKeyMessageHandler.class, ToggleKeyMessage.class, id++, Side.CLIENT);
 		INSTANCE.registerMessage(RegisterKeyMessageHandler.class, RegisterKeyMessage.class, id++, Side.CLIENT);
 		INSTANCE.registerMessage(ListKeyMessageHandler.class, ListKeyMessage.class, id++, Side.SERVER);
+		INSTANCE.registerMessage(StatusMessageHandlerClient.class, StatusMessage.class, id++, Side.CLIENT);
+		INSTANCE.registerMessage(StatusMessageHandlerServer.class, StatusMessage.class, id++, Side.SERVER);
 	}
 }
